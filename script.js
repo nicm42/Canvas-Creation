@@ -9,10 +9,11 @@ window.addEventListener('resize', () => {
 });
 
 const skyStart = window.innerHeight * 2 / 3;
+const randomFireworks = getRandomIntInclusive(5,10);
 
-//fireworks();
-catherineWheel();
 let fireworkCount = 0;
+let catherineWheelCount = 0;
+fireworks();
 
 function fireworks() {
   let particles = [];
@@ -47,8 +48,11 @@ function fireworks() {
       window.cancelAnimationFrame(drawFireworks);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       fireworkCount++;
-      if(fireworkCount === 5) {
-        catherineWheel();
+      if(fireworkCount === randomFireworks) {
+        const numberCatherineWheels = getRandomIntInclusive(1,3);
+        catherineWheel(numberCatherineWheels);
+        fireworkCount = 0;
+        //fireworks();
       } else {
         fireworks();
       }
@@ -57,7 +61,7 @@ function fireworks() {
   }
 }
 
-function catherineWheel() {
+function catherineWheel(numberCatherineWheels) {
   const colour = '#' + Math.random().toString(16).substr(2, 6);
   let alpha = random(0.5, 1);
   ctx.lineWidth = 1;
@@ -67,16 +71,17 @@ function catherineWheel() {
   if(randomDirection === 2){
     direction = false;
   }
+  const startPoint = random(0,6.3);
   let endPoint = 6.2;
   if(!direction){
     endPoint = 0.1;
   }
 
-  drawFireworks();
+  drawCatherineWheel();
 
-  function drawFireworks() {
+  function drawCatherineWheel() {
     ctx.beginPath();
-    ctx.arc(canvas.width / 2, skyStart, 50, 0, endPoint, direction);
+    ctx.arc(canvas.width / 2, skyStart, 50, startPoint, endPoint, direction);
     ctx.globalAlpha = alpha;
     ctx.stroke();
     if(direction) {
@@ -86,10 +91,16 @@ function catherineWheel() {
     }
     alpha -= 0.01;
     if((direction && endPoint > 0) || (!direction && endPoint < 6.4)){
-      requestAnimationFrame(drawFireworks);
+      requestAnimationFrame(drawCatherineWheel);
     } else {
-      window.cancelAnimationFrame(drawFireworks);
+      window.cancelAnimationFrame(drawCatherineWheel);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      catherineWheelCount++;
+      if(catherineWheelCount < numberCatherineWheels) {
+        catherineWheel(numberCatherineWheels);
+      }else {
+        fireworks();
+      }
     }
   }
 

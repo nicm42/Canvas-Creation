@@ -60,19 +60,32 @@ function fireworks() {
 function catherineWheel() {
   const colour = '#' + Math.random().toString(16).substr(2, 6);
   let alpha = random(0.5, 1);
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 1;
   ctx.strokeStyle = colour;
-  ctx.globalAlpha = alpha;
+  const randomDirection = getRandomIntInclusive(1,2); //1 = anticlockwise, 2 = clockwise 
+  let direction = true;
+  if(randomDirection === 2){
+    direction = false;
+  }
   let endPoint = 6.2;
+  if(!direction){
+    endPoint = 0.1;
+  }
 
   drawFireworks();
 
   function drawFireworks() {
     ctx.beginPath();
-    ctx.arc(canvas.width / 2, skyStart, 50, 0, endPoint, true);
+    ctx.arc(canvas.width / 2, skyStart, 50, 0, endPoint, direction);
+    ctx.globalAlpha = alpha;
     ctx.stroke();
-    endPoint -= 0.1
-    if(endPoint > 0){
+    if(direction) {
+      endPoint -= 0.1
+    } else {
+      endPoint += 0.1;
+    }
+    alpha -= 0.01;
+    if((direction && endPoint > 0) || (!direction && endPoint < 6.4)){
       requestAnimationFrame(drawFireworks);
     } else {
       window.cancelAnimationFrame(drawFireworks);
@@ -84,4 +97,10 @@ function catherineWheel() {
 
 function random(min, max) {
   return min + Math.random() * (max + 1 - min);
+}
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive 
 }

@@ -1,3 +1,4 @@
+//Stars and ground canvas
 const canvas1 = document.querySelector('#canvas1');
 const ctxBkg = canvas1.getContext("2d");
 
@@ -22,13 +23,28 @@ window.addEventListener('resize', () => {
   ctx.canvas.height = window.innerHeight;
 });
 
+//Fire canvas
+const canvas3 = document.querySelector('#canvas3');
+const ctxFire = canvas2.getContext("2d");
+
+ctxFire.canvas.width = window.innerWidth;
+ctxFire.canvas.height = window.innerHeight;
+window.addEventListener('resize', () => {
+  ctxFire.canvas.width = window.innerWidth;
+  ctxFire.canvas.height = window.innerHeight;
+});
+
+//Set up variables
 const skyStart = window.innerHeight * 3 / 4;
 const fireworkStart = window.innerHeight / 2;
-const randomFireworks = getRandomIntInclusive(5,10);
+const fireStart = window.innerHeight * 3 / 4;
+let randomFireworks = getRandomIntInclusive(5,10);
+let numberCatherineWheels = getRandomIntInclusive(3,5);
 
 let fireworkCount = 0;
 let catherineWheelCount = 0;
 
+//Add all the elements
 ground();
 stars();
 fireworks();
@@ -92,7 +108,7 @@ function fireworks() {
       ctx.clearRect(0, 0, canvas2.width, canvas2.height);
       fireworkCount++;
       if(fireworkCount === randomFireworks) {
-        const numberCatherineWheels = getRandomIntInclusive(3,5);
+        numberCatherineWheels = getRandomIntInclusive(3,5);
         catherineWheel(numberCatherineWheels);
         fireworkCount = 0;
       } else {
@@ -150,6 +166,8 @@ function catherineWheel(numberCatherineWheels) {
         if(catherineWheelCount < numberCatherineWheels) {
           catherineWheel(numberCatherineWheels);
         }else {
+          catherineWheelCount = 0;
+          randomFireworks = getRandomIntInclusive(5,10);
           fireworks();
         }
       }, 1000);

@@ -13,8 +13,8 @@ window.addEventListener('resize', () => {
 });
 
 //Fireworks canvas
-const canvas2 = document.querySelector('#canvas2');
-const ctx = canvas2.getContext("2d");
+const canvas3 = document.querySelector('#canvas3');
+const ctx = canvas3.getContext("2d");
 
 ctx.canvas.width = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
@@ -24,7 +24,7 @@ window.addEventListener('resize', () => {
 });
 
 //Fire canvas
-const canvas3 = document.querySelector('#canvas3');
+const canvas2 = document.querySelector('#canvas2');
 const ctxFire = canvas2.getContext("2d");
 
 ctxFire.canvas.width = window.innerWidth;
@@ -33,7 +33,7 @@ window.addEventListener('resize', () => {
   ctxFire.canvas.width = window.innerWidth;
   ctxFire.canvas.height = window.innerHeight;
   //Re-draw the fire
-  ctxBkg.clearRect(0, 0, canvas3.width, canvas3.height);  
+  ctxBkg.clearRect(0, 0, canvas2.width, canvas2.height);  
   fire();
 });
 
@@ -58,7 +58,7 @@ let catherineWheelCount = 0;
 ground();
 stars();
 fire();
-//fireworks();
+fireworks();
 
 function ground(){
   ctxBkg.fillStyle = '#181818';
@@ -100,10 +100,16 @@ function fire() {
     rowCount++;
   }
 
+  createFlames();
+
   function createBase() {
     ctxFire.beginPath();
     ctxFire.arc(leftStart, bottomStart, 5, 0, 2 * Math.PI);
     ctxFire.fill();
+  }
+
+  function createFlames() {
+
   }
 }
 
@@ -138,7 +144,7 @@ function fireworks() {
       window.requestAnimationFrame(drawFireworks);
     } else {
       window.cancelAnimationFrame(drawFireworks);
-      ctx.clearRect(0, 0, canvas2.width, canvas2.height);
+      ctx.clearRect(0, 0, canvas3.width, canvas3.height);
       fireworkCount++;
       if(fireworkCount === randomFireworks) {
         numberCatherineWheels = getRandomIntInclusive(3,5);
@@ -155,7 +161,7 @@ function fireworks() {
 function catherineWheel(numberCatherineWheels) {
   const colour = '#' + Math.random().toString(16).substr(2, 6);
   let alpha = random(0.5, 1);
-  let canvasX = random(50, canvas2.width - 50);
+  let canvasX = random(50, canvas3.width - 50);
   ctx.lineWidth = 1;
   ctx.strokeStyle = colour;
   const randomDirection = getRandomIntInclusive(1,2); //1 = anticlockwise, 2 = clockwise 
@@ -188,13 +194,13 @@ function catherineWheel(numberCatherineWheels) {
       window.cancelAnimationFrame(drawCatherineWheel);
       let startOpacity = 1;
       const fading = setInterval(() => {
-        canvas2.style.opacity = startOpacity - 0.1;
+        canvas3.style.opacity = startOpacity - 0.1;
         startOpacity -= 0.1;
       }, 100);
       setTimeout(() => {
         clearInterval(fading);
-        ctx.clearRect(0, 0, canvas2.width, canvas2.height);        
-        canvas2.style.opacity = 1;
+        ctx.clearRect(0, 0, canvas3.width, canvas3.height);        
+        canvas3.style.opacity = 1;
         catherineWheelCount++;
         if(catherineWheelCount < numberCatherineWheels) {
           catherineWheel(numberCatherineWheels);

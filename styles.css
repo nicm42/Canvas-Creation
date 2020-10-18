@@ -18,12 +18,12 @@ html, body {
   background-color: black;
 }
 
-/* Fireworks */
+/* Fire */
 #canvas2 {
   z-index: 2;
 }
 
-/* Fire */
+/* Fireworks */
 #canvas3 {
-  z-index: 2;
+  z-index: 3;
 }

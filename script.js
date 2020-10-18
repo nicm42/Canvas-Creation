@@ -11,8 +11,6 @@ window.addEventListener('resize', () => {
   stars();
 });
 
-stars();
-
 //Fireworks canvas
 const canvas2 = document.querySelector('#canvas2');
 const ctx = canvas2.getContext("2d");
@@ -24,22 +22,31 @@ window.addEventListener('resize', () => {
   ctx.canvas.height = window.innerHeight;
 });
 
-const skyStart = window.innerHeight * 2 / 3;
+const skyStart = window.innerHeight * 3 / 4;
 const randomFireworks = getRandomIntInclusive(5,10);
 
 let fireworkCount = 0;
 let catherineWheelCount = 0;
+
+ground();
+stars();
 fireworks();
+
+function ground(){
+  ctxBkg.fillStyle = '#181818';
+  ctxBkg.globalAlpha = 1;
+  ctxBkg.fillRect(0, skyStart, ctxBkg.canvas.width, skyStart);
+}
 
 function stars() {
   //Add stars to a small fraction of the canvas
-  const canvasSize = ctxBkg.canvas.width * ctxBkg.canvas.height;
+  const canvasSize = ctxBkg.canvas.width * skyStart;
   const stars = canvasSize / 10000;
 
   for(let i = 0; i < stars; i++) {
     //Set up random elements
     let xPos = random(2, ctxBkg.canvas.width - 2);
-    let yPos = random(2, ctxBkg.canvas.height - 2);
+    let yPos = random(2, skyStart - 2);
     let alpha = random(.5, 1);
     let size = random(1, 2);
 

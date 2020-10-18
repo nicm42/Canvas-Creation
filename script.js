@@ -8,7 +8,7 @@ window.addEventListener('resize', () => {
   ctxBkg.canvas.width = window.innerWidth;
   ctxBkg.canvas.height = window.innerHeight;
   //Re-add the stars
-  ctxBkg.clearRect(0, 0, canvas1.width, canvas1.height);  
+  ctxBkg.clearRect(0, 0, canvas1.width, canvas1.height);
   stars();
 });
 
@@ -33,7 +33,7 @@ window.addEventListener('resize', () => {
   ctxFire.canvas.width = window.innerWidth;
   ctxFire.canvas.height = window.innerHeight;
   //Re-draw the fire
-  ctxBkg.clearRect(0, 0, canvas2.width, canvas2.height);  
+  ctxFire.clearRect(0, 0, canvas2.width, canvas2.height);  
   fire();
 });
 
@@ -58,7 +58,7 @@ let catherineWheelCount = 0;
 ground();
 stars();
 fire();
-fireworks();
+//fireworks();
 
 function ground(){
   ctxBkg.fillStyle = '#181818';
@@ -86,25 +86,43 @@ function stars() {
 }
 
 function fire() {
-  ctxFire.fillStyle = 'orange';
+  ctxFire.globalAlpha = 1;
+  let firePixelWidth = 4;
   let leftStart = 0;
   let rowCount = 0;
+  let greenCount = 15;
 
-  for (let j = 10; j > 0, j--;) {
-    ctxFire.globalAlpha = j / 10;
-    for (let i = 0; i < fireEnd / 4; i++) {
-      leftStart = i * 4;
+  let rowRed = 'ff';
+  let rowGreen1 = 'f';
+  let rowGreen2 = 'f';
+  let rowBlue = 'ff';
+
+  for (let row = 15; row >= 0; row--) {
+    //Going from white (#fffff) to orange (#ffa500)
+    if(row % 2 !== 0) {
+      greenCount --;
+      rowGreen1 = greenCount.toString(16);
+    }
+    rowGreen2 = row.toString(16);
+    let rowGreen = rowGreen1 + rowGreen2;
+    rowBlue = row.toString(16) + row.toString(16);
+    let rowColour = '#' + rowRed + rowGreen + rowBlue;
+    console.log(row.toString(16), rowColour)
+    for (let col = 0; col < fireEnd / firePixelWidth; col++) {
+      leftStart = col * firePixelWidth;
       bottomStart = ctxFire.canvas.height - (rowCount * 5);
-      createBase();
+      createBase(rowColour);
     }
     rowCount++;
+    fireEnd--;
   }
 
   createFlames();
 
-  function createBase() {
+  function createBase(rowColour) {
     ctxFire.beginPath();
-    ctxFire.arc(leftStart, bottomStart, 5, 0, 2 * Math.PI);
+    ctxFire.arc(leftStart, bottomStart, firePixelWidth, 0, 2 * Math.PI);
+    ctxFire.fillStyle = rowColour;
     ctxFire.fill();
   }
 

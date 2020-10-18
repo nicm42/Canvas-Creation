@@ -92,7 +92,7 @@ function fireworks() {
       ctx.clearRect(0, 0, canvas2.width, canvas2.height);
       fireworkCount++;
       if(fireworkCount === randomFireworks) {
-        const numberCatherineWheels = getRandomIntInclusive(1,3);
+        const numberCatherineWheels = getRandomIntInclusive(3,5);
         catherineWheel(numberCatherineWheels);
         fireworkCount = 0;
       } else {
@@ -137,13 +137,22 @@ function catherineWheel(numberCatherineWheels) {
       requestAnimationFrame(drawCatherineWheel);
     } else {
       window.cancelAnimationFrame(drawCatherineWheel);
-      ctx.clearRect(0, 0, canvas2.width, canvas2.height);
-      catherineWheelCount++;
-      if(catherineWheelCount < numberCatherineWheels) {
-        catherineWheel(numberCatherineWheels);
-      }else {
-        fireworks();
-      }
+      let startOpacity = 1;
+      const fading = setInterval(() => {
+        canvas2.style.opacity = startOpacity - 0.1;
+        startOpacity -= 0.1;
+      }, 100);
+      setTimeout(() => {
+        clearInterval(fading);
+        ctx.clearRect(0, 0, canvas2.width, canvas2.height);        
+        canvas2.style.opacity = 1;
+        catherineWheelCount++;
+        if(catherineWheelCount < numberCatherineWheels) {
+          catherineWheel(numberCatherineWheels);
+        }else {
+          fireworks();
+        }
+      }, 1000);
     }
   }
 

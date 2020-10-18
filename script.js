@@ -6,6 +6,9 @@ ctxBkg.canvas.height = window.innerHeight;
 window.addEventListener('resize', () => {
   ctxBkg.canvas.width = window.innerWidth;
   ctxBkg.canvas.height = window.innerHeight;
+  //Re-add the stars
+  ctxBkg.clearRect(0, 0, canvas1.width, canvas1.height);  
+  stars();
 });
 
 stars();

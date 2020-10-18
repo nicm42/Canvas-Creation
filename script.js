@@ -32,12 +32,22 @@ ctxFire.canvas.height = window.innerHeight;
 window.addEventListener('resize', () => {
   ctxFire.canvas.width = window.innerWidth;
   ctxFire.canvas.height = window.innerHeight;
+  //Re-draw the fire
+  ctxBkg.clearRect(0, 0, canvas3.width, canvas3.height);  
+  fire();
 });
 
 //Set up variables
-const skyStart = window.innerHeight * 3 / 4;
-const fireworkStart = window.innerHeight / 2;
-const fireStart = window.innerHeight * 3 / 4;
+let skyStart = window.innerHeight * 3 / 4;
+let fireEnd = window.innerWidth / 6;
+let fireworkStart = window.innerHeight / 2;
+
+window.addEventListener('resize', () => {
+  skyStart = window.innerHeight * 3 / 4;
+  fireEnd = window.innerWidth / 6;
+  fireworkStart = window.innerHeight / 2;
+});
+
 let randomFireworks = getRandomIntInclusive(5,10);
 let numberCatherineWheels = getRandomIntInclusive(3,5);
 
@@ -47,7 +57,8 @@ let catherineWheelCount = 0;
 //Add all the elements
 ground();
 stars();
-fireworks();
+fire();
+//fireworks();
 
 function ground(){
   ctxBkg.fillStyle = '#181818';
@@ -71,6 +82,28 @@ function stars() {
     ctxBkg.fillStyle = '#ffffff';
     ctxBkg.globalAlpha = alpha;
     ctxBkg.fillRect(xPos, yPos, size, size);
+  }
+}
+
+function fire() {
+  ctxFire.fillStyle = 'orange';
+  let leftStart = 0;
+  let rowCount = 0;
+
+  for (let j = 10; j > 0, j--;) {
+    ctxFire.globalAlpha = j / 10;
+    for (let i = 0; i < fireEnd / 4; i++) {
+      leftStart = i * 4;
+      bottomStart = ctxFire.canvas.height - (rowCount * 5);
+      createBase();
+    }
+    rowCount++;
+  }
+
+  function createBase() {
+    ctxFire.beginPath();
+    ctxFire.arc(leftStart, bottomStart, 5, 0, 2 * Math.PI);
+    ctxFire.fill();
   }
 }
 

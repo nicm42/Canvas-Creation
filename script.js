@@ -23,6 +23,7 @@ window.addEventListener('resize', () => {
 });
 
 const skyStart = window.innerHeight * 3 / 4;
+const fireworkStart = window.innerHeight / 2;
 const randomFireworks = getRandomIntInclusive(5,10);
 
 let fireworkCount = 0;
@@ -60,7 +61,7 @@ function stars() {
 function fireworks() {
   let particles = [];
   const startX = random(10, canvas1.width - 10);
-  const startY = random(10, skyStart - 100);
+  const startY = random(10, fireworkStart - 100);
   const colour = '#' + Math.random().toString(16).substr(2, 6);
   let alpha = random(0.5, 1);
   drawFireworks();

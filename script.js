@@ -1,5 +1,16 @@
-const canvas = document.querySelector('#canvas');
-const ctx = canvas.getContext("2d");
+const canvas1 = document.querySelector('#canvas1');
+const ctxBkg = canvas1.getContext("2d");
+
+ctxBkg.canvas.width = window.innerWidth;
+ctxBkg.canvas.height = window.innerHeight;
+window.addEventListener('resize', () => {
+  ctxBkg.canvas.width = window.innerWidth;
+  ctxBkg.canvas.height = window.innerHeight;
+});
+
+//Fireworks canvas
+const canvas2 = document.querySelector('#canvas2');
+const ctx = canvas2.getContext("2d");
 
 ctx.canvas.width = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
@@ -17,7 +28,7 @@ fireworks();
 
 function fireworks() {
   let particles = [];
-  const startX = random(10, canvas.width - 10);
+  const startX = random(10, canvas1.width - 10);
   const startY = random(10, skyStart - 100);
   const colour = '#' + Math.random().toString(16).substr(2, 6);
   let alpha = random(0.5, 1);
@@ -46,13 +57,12 @@ function fireworks() {
       window.requestAnimationFrame(drawFireworks);
     } else {
       window.cancelAnimationFrame(drawFireworks);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas2.width, canvas2.height);
       fireworkCount++;
       if(fireworkCount === randomFireworks) {
         const numberCatherineWheels = getRandomIntInclusive(1,3);
         catherineWheel(numberCatherineWheels);
         fireworkCount = 0;
-        //fireworks();
       } else {
         fireworks();
       }
@@ -64,6 +74,7 @@ function fireworks() {
 function catherineWheel(numberCatherineWheels) {
   const colour = '#' + Math.random().toString(16).substr(2, 6);
   let alpha = random(0.5, 1);
+  let canvasX = random(50, canvas2.width - 50);
   ctx.lineWidth = 1;
   ctx.strokeStyle = colour;
   const randomDirection = getRandomIntInclusive(1,2); //1 = anticlockwise, 2 = clockwise 
@@ -81,7 +92,7 @@ function catherineWheel(numberCatherineWheels) {
 
   function drawCatherineWheel() {
     ctx.beginPath();
-    ctx.arc(canvas.width / 2, skyStart, 50, startPoint, endPoint, direction);
+    ctx.arc(canvasX, skyStart, 50, startPoint, endPoint, direction);
     ctx.globalAlpha = alpha;
     ctx.stroke();
     if(direction) {
@@ -94,7 +105,7 @@ function catherineWheel(numberCatherineWheels) {
       requestAnimationFrame(drawCatherineWheel);
     } else {
       window.cancelAnimationFrame(drawCatherineWheel);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas2.width, canvas2.height);
       catherineWheelCount++;
       if(catherineWheelCount < numberCatherineWheels) {
         catherineWheel(numberCatherineWheels);

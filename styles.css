@@ -12,18 +12,13 @@ html, body {
   background-color: transparent;
 }
 
-/* Stars and ground */
+/* Stars */
 #canvas1 {
   z-index: 1;
   background-color: black;
 }
 
-/* Fire */
+/* Fireworks */
 #canvas2 {
   z-index: 2;
-}
-
-/* Fireworks */
-#canvas3 {
-  z-index: 3;
 }

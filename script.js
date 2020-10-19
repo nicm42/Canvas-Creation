@@ -128,19 +128,21 @@ function fire() {
 
   function createFlames() {
     let flameBottom = bottomStart - 2;
+    let flameLeft = 5;
     for (let index = 15; index >= 0; index--) {
       rowRed = index.toString(16) + index.toString(16);
-      //Going from orange (#ff7000) to black (#000000)
+      //Going from orange (#ff7000) to grey (#000000)
       if(index % 2 === 0 && index > 0) {
         greenCount --;
         rowGreen1 = greenCount.toString(16);
       }
       let rowFlameColour = '#' + rowRed + rowGreen1 + rowGreen2 + rowBlue;
       ctxFire.beginPath();
-      ctxFire.arc(5, flameBottom, firePixelWidth, 0, 2 * Math.PI);
+      ctxFire.arc(flameLeft, flameBottom, firePixelWidth, 0, 2 * Math.PI);
       ctxFire.fillStyle = rowFlameColour; 
       ctxFire.fill();
       flameBottom -= 4;
+      flameLeft += 0.5;
     }
   }
 }

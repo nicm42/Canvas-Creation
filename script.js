@@ -39,7 +39,7 @@ window.addEventListener('resize', () => {
 
 //Set up variables
 let skyStart = window.innerHeight * 3 / 4;
-let fireEnd = window.innerWidth / 6;
+let fireEnd = window.innerWidth / 10;
 let fireworkStart = window.innerHeight / 2;
 
 window.addEventListener('resize', () => {
@@ -116,7 +116,6 @@ function fire() {
     fireEnd--;
   }
 
-  greenCount = 7;
   createFlames();
 
   function createBase(rowColour) {
@@ -127,22 +126,28 @@ function fire() {
   }
 
   function createFlames() {
-    let flameBottom = bottomStart - 2;
+    const numberOfFlames = fireEnd / firePixelWidth / 4;
     let flameLeft = 5;
-    for (let index = 15; index >= 0; index--) {
-      rowRed = index.toString(16) + index.toString(16);
-      //Going from orange (#ff7000) to grey (#000000)
-      if(index % 2 === 0 && index > 0) {
-        greenCount --;
-        rowGreen1 = greenCount.toString(16);
+    for (let flame = 0; flame < numberOfFlames; flame++) {
+      let flameBottom = bottomStart - 2;
+      flameLeft += 4;
+      greenCount = 7;
+      rowGreen1 = '7';
+      for (let index = 15; index >= 0; index--) {
+        rowRed = index.toString(16) + index.toString(16);
+        //Going from orange (#ff7000) to grey (#000000)
+        if(index % 2 === 0 && index > 0) {
+          greenCount --;
+          rowGreen1 = greenCount.toString(16);
+        }
+        let rowFlameColour = '#' + rowRed + rowGreen1 + rowGreen2 + rowBlue;
+        ctxFire.beginPath();
+        ctxFire.arc(flameLeft, flameBottom, firePixelWidth, 0, 2 * Math.PI);
+        ctxFire.fillStyle = rowFlameColour; 
+        ctxFire.fill();
+        flameBottom -= 4;
+        flameLeft += 0.5;
       }
-      let rowFlameColour = '#' + rowRed + rowGreen1 + rowGreen2 + rowBlue;
-      ctxFire.beginPath();
-      ctxFire.arc(flameLeft, flameBottom, firePixelWidth, 0, 2 * Math.PI);
-      ctxFire.fillStyle = rowFlameColour; 
-      ctxFire.fill();
-      flameBottom -= 4;
-      flameLeft += 0.5;
     }
   }
 }

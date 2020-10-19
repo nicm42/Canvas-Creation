@@ -98,7 +98,7 @@ function fire() {
   let rowBlue = 'ff';
 
   for (let row = 15; row >= 0; row--) {
-    //Going from white (#fffff) to orange (#ffa500)
+    //Going from white (#fffff) to orange (#ff7000)
     if(row % 2 !== 0) {
       greenCount --;
       rowGreen1 = greenCount.toString(16);
@@ -107,7 +107,6 @@ function fire() {
     let rowGreen = rowGreen1 + rowGreen2;
     rowBlue = row.toString(16) + row.toString(16);
     let rowColour = '#' + rowRed + rowGreen + rowBlue;
-    console.log(row.toString(16), rowColour)
     for (let col = 0; col < fireEnd / firePixelWidth; col++) {
       leftStart = col * firePixelWidth;
       bottomStart = ctxFire.canvas.height - (rowCount * 5);
@@ -117,6 +116,7 @@ function fire() {
     fireEnd--;
   }
 
+  greenCount = 7;
   createFlames();
 
   function createBase(rowColour) {
@@ -127,7 +127,21 @@ function fire() {
   }
 
   function createFlames() {
-
+    let flameBottom = bottomStart - 2;
+    for (let index = 15; index >= 0; index--) {
+      rowRed = index.toString(16) + index.toString(16);
+      //Going from orange (#ff7000) to black (#000000)
+      if(index % 2 === 0 && index > 0) {
+        greenCount --;
+        rowGreen1 = greenCount.toString(16);
+      }
+      let rowFlameColour = '#' + rowRed + rowGreen1 + rowGreen2 + rowBlue;
+      ctxFire.beginPath();
+      ctxFire.arc(5, flameBottom, firePixelWidth, 0, 2 * Math.PI);
+      ctxFire.fillStyle = rowFlameColour; 
+      ctxFire.fill();
+      flameBottom -= 4;
+    }
   }
 }
 
